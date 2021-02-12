@@ -1,0 +1,13 @@
+<application>
+  <display-name>PhotoFilmYou</display-name>
+  <module>
+    <web>
+      <web-uri>PhotoFilmYou.war</web-uri>
+      <context-root>/PhotoFilmYou</context-root>
+    </web>
+  </module>
+  <module>
+    <ejb>PhotoFilmYou.jar</ejb>
+  </module>
+</application>
+

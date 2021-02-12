@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+<ui:composition template="/WEB-INF/include/template.xhtml">
+
+	<f:metadata>
+		<f:event type="preRenderView"
+			listener="#{listAllQuestionsBean.onLoad}" />
+	</f:metadata>
+
+	<ui:define name="content">
+		<h2 class="display-3 m-5">Foro</h2>
+
+		<c:if test="${empty user}">
+			<small>Inicia sesión para hacer y responder preguntas en
+				nuestro foro.</small>
+		</c:if>
+
+		<c:if test="${not empty user}">
+			<h:panelGroup class="card mb-5 p-5">
+				<h:outputText value="Tu rol es #{loginBean.user.role}" />
+				<br />
+				<c:if test="${loginBean.user.role == 'Customer' }">
+					<h:outputText
+						value="Has iniciado sesión como #{loginBean.user.name}" />
+					<br />
+					<h:button value="Hacer pregunta" outcome="askQuestion"
+						styleClass="btn btn-primary" />
+				</c:if>
+			</h:panelGroup>
+		</c:if>
+
+		<ui:repeat value="#{listAllQuestionsBean.questionList}" var="item">
+			<h:panelGroup class="card mb-5">
+				<h:panelGroup class="card-body">
+					<h4 class="card-title">
+						<h:outputText value="#{item.title}" />
+					</h4>
+					<h6 class="card-title">
+						<h:outputText value="Pregunta realizada por #{item.askedBy.name}" />
+					</h6>
+					<h:panelGroup rendered="${item.response.status == 'Pending' }">
+						<i class="fa fa-exclamation" aria-hidden="true"></i>
+						<small class="card-text">La respuesta no ha sido
+							verificada.</small>
+					</h:panelGroup>
+
+					<h:panelGroup rendered="${item.response.status == 'Approved' }">
+						<i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+						<small class="card-text">La respuesta ha sido verificada
+							por un administrador.</small>
+					</h:panelGroup>
+
+					<h:panelGroup rendered="${item.response.status == 'Rejected' }">
+						<i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
+						<small class="card-text">La respuesta ha sido rechazada
+							por un administrador.</small>
+					</h:panelGroup>
+
+					<h:panelGroup rendered="${empty item.response.status}">
+						<i class="fa fa-question" aria-hidden="true"></i>
+						<small class="card-text">Esta pregunta aún no está
+							respondida.</small>
+					</h:panelGroup>
+					<br />
+					<h:panelGroup rendered="${not empty item.response.attachedImage}">
+						<i class="fa d-inline fa-lg fa-paperclip"></i>
+						<small class="card-text"> La respuesta contiene archivos
+							adjuntos</small>
+					</h:panelGroup>
+					<br />
+					<h:link outcome="showQuestion" value="Ver detalle"
+						class="card-link ml-2">
+						<f:param name="questionId" value="#{item.id}" />
+						<f:param name="title" value="#{item.title}" />
+					</h:link>
+				</h:panelGroup>
+			</h:panelGroup>
+		</ui:repeat>
+
+	</ui:define>
+</ui:composition>
+</html>

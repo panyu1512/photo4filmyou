@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<ui:composition template="/WEB-INF/include/template.xhtml">
+	
+	
+	
+	<ui:define name="content">
+
+		<div class="py-5 text-center">
+	    <div class="container">
+	      <div class="row">
+	        <div class="mx-auto col-lg-6 col-10">
+	          <h1>Actualiza tus datos</h1>
+	          <h:form class="text-left">
+	            <div class="form-group"> 
+	            	<h:outputLabel value="Name" for="name" />
+	            	<h:inputText id="name" styleClass="form-control" required="true" value="#{updateCustomer.name}" requiredMessage="Please enter your name." /> 
+	            	<h:message for="name" errorStyle="color:red; display:block"/>
+	            </div>
+	            <div class="form-group"> 
+	            	<h:outputLabel value="Surname" for="surname" /> 
+	            	<h:inputText id="surname" styleClass="form-control" required="true" value="#{updateCustomer.surname}" requiredMessage="Please enter your surname." /> 
+	            	<h:message for="name" errorStyle="color:red; display:block"/>
+	            </div>
+	            <div class="form-group"> 
+	            	<h:outputLabel value="Phone" for="phone" /> 
+	            	<h:inputText id="phone" styleClass="form-control" required="true" value="#{updateCustomer.phone}" requiredMessage="Please enter your phone" /> 
+	            	<h:message for="phone" errorStyle="color:red; display:block"/>
+	            </div>
+	            <div class="form-group"> 
+	            	<h:outputLabel value="Nif" for="nif" /> 
+	            	<h:inputText id="nif" styleClass="form-control" required="true" value="#{updateCustomer.nif}" requiredMessage="Please enter your nif" /> 
+	            	<h:message for="nif" errorStyle="color:red; display:block"/>
+	            </div>
+	            <div class="form-group"> 
+	            	<h:outputLabel value="Address" for="location" /> 
+	            	<h:inputText id="location" styleClass="form-control" required="true" value="#{updateCustomer.location}" requiredMessage="Please enter your address" /> 
+	            	<h:message for="location" errorStyle="color:red; display:block"/>
+	            </div>
+	            <div class="form-group"> 
+	            	<h:outputLabel value="Email" for="email" /> 
+	            	<h:inputText id="email" styleClass="form-control" required="true" value="#{updateCustomer.email}" requiredMessage="Please enter your email address." validatorMessage="Invalid email format">
+							<f:validateRegex
+								pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+					</h:inputText>
+					<h:message for="email" errorStyle="color:red; display:block"/> 
+	            </div>
+	            <div class="form-row">
+	              <div class="form-group col-md-6"> 
+	              	<h:outputLabel value="Password" for="password" /> 
+	              	<h:inputSecret id="password" styleClass="form-control" required="true" value="#{updateCustomer.password}" requiredMessage="Please enter your password."/>
+	              	<h:message for="password" errorStyle="color:red; display:block"/> 
+	              </div>	              
+	            </div>	           
+	            <div class="form-row">
+	            <h:commandButton value="Actualizar" styleClass="btn btn-primary" action="#{updateCustomer.update}"/>
+	            </div> 
+	            <h:inputHidden id="idUser" value="#{updateCustomer.id}"/>           
+	          </h:form>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</ui:define>
+</ui:composition>
+</html>

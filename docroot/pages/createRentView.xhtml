@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/include/template.xhtml">
+
+	<ui:define name="content">
+		<h:panelGroup rendered="#{empty user}">
+			<h2 class="mt-5">Por favor, inicia sesión para acceder a esta sección</h2>
+		</h:panelGroup>
+
+		<h:form rendered="#{loginBean.userIsCustomer()}">
+			<h2 class="mt-5">Crear un nuevo alquiler</h2>
+
+			<h:panelGroup class="row m-3">
+				<p:outputLabel value="Fechas de alquiler ">
+					<h:inputText styleClass="datepickerFrom" a:placeholder="Desde"
+						binding="#{dateFrom}" required="true" autocomplete="off">
+					</h:inputText>
+					<h:inputText styleClass="datepickerTo" a:placeholder="Hasta"
+						binding="#{dateTo}" required="true" autocomplete="off">
+					</h:inputText>
+				</p:outputLabel>
+			</h:panelGroup>
+
+			<h:panelGroup class="row m-3">
+				<h:commandButton class="btn btn-primary"
+					action="#{rentBean.createRent(dateFrom.value, dateTo.value)}"
+					value="Alquilar" />
+			</h:panelGroup>
+		</h:form>
+		<script type="text/javascript">
+    //For calendar
+    $(".datepickerFrom").datepicker({
+        inline: true,
+        showWeek: true,
+        firstDay: 1
+    });
+
+    $(".datepickerTo").datepicker({
+        inline: true,
+        showWeek: true,
+        firstDay: 1
+    });
+
+</script>
+	</ui:define>
+</ui:composition>
+
+</html>

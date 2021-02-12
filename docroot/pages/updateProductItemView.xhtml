@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+	
+<f:metadata>
+	<f:viewParam name="serialNumber" value="#{updateItemBean.serialNumber}" />
+</f:metadata>
+	
+	
+<ui:composition template="/WEB-INF/include/template.xhtml">
+	
+	<ui:define name="content">
+	
+		<div class="py-5">
+	    	<div class="container">
+	      		<div class="row">
+	        		<div class="col-md-12">
+	          			<h1 class="">Actualización de unidad</h1>
+	        		</div>
+	      		</div>
+	    	</div>
+	  	</div>
+	
+		<div class="py-5">
+	    	<div class="container">
+				<h:form>
+					<div class="col-md-12 mb-12 form-group">
+						<h:outputLabel value="Eliga el producto: "/>
+						<br />
+   						<h:selectOneMenu value="#{updateItemBean.product}">
+		   					<f:selectItems value="#{updateItemBean.listSelectProducts}" />
+						</h:selectOneMenu>
+					</div>
+					<div class="col-md-12 mb-12 form-group">
+						<h:outputLabel value="Eliga el estado (Operational o Broken): "/>
+						<br />
+   						<h:selectOneMenu value="#{updateItemBean.status}">
+		   					<f:selectItem itemLabel="Broken" itemValue="Broken" />
+           	 				<f:selectItem itemLabel="Operational" itemValue="Operational" />
+						</h:selectOneMenu>
+					</div>
+					<div class="col-md-3 mb-3 form-group">
+						<h:commandButton value="Modificar" class="btn btn-info" action="#{updateItemBean.update()}" />
+					</div>
+				</h:form>
+	    	</div>
+	  	</div>
+	</ui:define>
+</ui:composition>
+</html>

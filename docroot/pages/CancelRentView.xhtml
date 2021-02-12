@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<f:metadata>
+	<f:viewParam name="id" value="#{cancelRent.id}" />
+	<f:viewParam name="pageFrom" value="#{cancelRent.pageFrom}" />
+</f:metadata>
+
+<ui:composition template="/WEB-INF/include/template.xhtml">
+
+	<ui:define name="content">
+
+		<div class="py-5">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<h1 class="">Cancelar un alquiler</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="py-5">
+			<div class="container">
+				<h:form>
+					<div class="col-md-12 mb-12 form-group">
+						<h:outputLabel value="¿Seguro que quiere cancelar el alquiler?"></h:outputLabel>
+					</div>
+					<div class="col-md-3 mb-3 form-group">
+						<input type="button" onclick="history.go(-1)"
+							style="margin-left: 20px;" value="Volver" class="btn btn-success" />
+						<h:commandButton value="Cancelar" class="btn btn-info"
+							action="#{cancelRent.cancelRent()}" style="margin-left: 20px;">
+							<f:param name="pageFrom" value="#{view.viewId}" />
+						</h:commandButton>
+					</div>
+				</h:form>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

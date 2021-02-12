@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/include/template.xhtml">
+	
+	<ui:define name="content">
+	
+		<div class="py-5">
+		    <div class="container">
+		      	<div class="row">
+		        	<div class="col-md-12">
+		          		<h1 class="">Busqueda por alquiler</h1>
+		        	</div>
+		      	</div>
+		    </div>
+		</div>
+		
+		<div class="py-5">
+		    <div class="container">
+			    <div class="row" >
+			    	<div class= "col-12 col-md-12">
+				    	<h:form>
+				    		<div class= "col-12 col-md-12 input-group">
+								<h:inputText id="id" value="#{showRent.id}"
+								placeholder="Introduce tu criterio de búsqueda" class= "col-6 col-md-6 form-control"/>
+								<h:commandButton value="Buscar" actionListener="#{showRent.getRent()}"
+								class="btn btn-primary col-2 col-md-2" style="margin-left: 20px;" />
+							</div>
+						</h:form>
+					</div>
+			    </div>
+		    </div>
+	  	</div>
+		
+		<p:dataTable value="#{showRent.rentShow}" var="item"
+						rows="1" paginator="false">
+			
+			<p:column headerText = "ID">
+				<h:outputText value="#{item.id}" />							
+			</p:column>
+			
+			<p:column headerText = "from">
+				<h:outputText value="#{item.from}" />							
+			</p:column>
+			
+			<p:column headerText = "to">
+				<h:outputText value="#{item.to}" />							
+			</p:column>
+			
+			<p:column headerText = "Status">
+				<h:outputText value="#{item.status}" />							
+			</p:column>
+
+			<p:column headerText = "Customer">
+				<h:outputText value="#{item.customerJPA.nif}" />							
+			</p:column>
+			
+			<p:column headerText = "Price">
+				<h:outputText value="#{item.totalPrice.getAmount()}" />							
+			</p:column>
+			
+			<p:column headerText = "Rent Days">
+				<h:outputText value="#{item.rentDays}" />							
+			</p:column>
+			
+			<p:column headerText = "Acciones">
+				<h:form>
+					<h:link outcome="CancelRentView" value="Cancelar" includeViewParams="true"
+							type="button" class="btn btn-success" >
+						<f:param name="id" value="#{item.id}" />
+					</h:link>
+				</h:form>
+			</p:column>				
+	
+		</p:dataTable>
+	</ui:define>
+</ui:composition>
+</html>

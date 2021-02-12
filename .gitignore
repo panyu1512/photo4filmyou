@@ -1,0 +1,7 @@
+.settings/
+build/
+dist/
+out/
+target/
+.idea/
+PhotoFilm4You.iml

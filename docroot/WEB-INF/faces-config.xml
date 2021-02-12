@@ -1,0 +1,14 @@
+<faces-config version="2.0"
+    xmlns="http://java.sun.com/xml/ns/javaee" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+
+	<converter>
+        <converter-for-class>java.lang.Enum</converter-for-class>
+        <converter-class>javax.faces.convert.EnumConverter</converter-class>
+    </converter>
+    <validator>
+    <validator-id>requiredCheckboxValidator</validator-id>
+    <validator-class>managedbean.util.RequiredCheckboxValidator</validator-class>
+</validator>
+ </faces-config>

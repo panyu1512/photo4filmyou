@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+<ui:composition template="/WEB-INF/include/template.xhtml">
+
+
+
+    <ui:define name="content">
+        <h1>Este es una página de renta de prueba</h1>
+        <div class="py-5" style="">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h:form>
+                            <div class="form-group">
+                                <h:outputLabel value="DateFrom" for="datefrom" />
+                                <h:inputText id="datefrom" styleClass="form-control" required="true" value="#{rentBean.fromDateStr}">
+                                </h:inputText>
+                            </div>
+                            <div class="form-group">
+                                <h:outputLabel value="DateTo" for="dateto" />
+                                <h:inputText id="dateto" styleClass="form-control" required="true" value="#{rentBean.fromDateStr}">
+                                </h:inputText>
+                            </div>
+
+                            <div class="col-md-12 mb-12">
+                                <h:commandButton value="create rent" styleClass="btn btn-primary" action="#{rentBean.testRent()}"/>
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/include/template.xhtml">
+	
+	<ui:define name="content">
+	
+		<div class="py-5">
+		    <div class="container">
+		      	<div class="row">
+		        	<div class="col-md-12">
+		          		<h1 class="">Tabla de Unidades</h1>
+		        	</div>
+		      	</div>
+		    </div>
+		</div>
+		
+		<div class="py-5">
+			<div class="container">
+				<div class="row" >
+				    <div class= "col-12 col-md-12">
+					    <h:form>
+					    	<div class= "col-12 col-md-12">
+								<h:link outcome="addItemView" value="Añadir una unidad" class="btn btn-info col-2 col-md-2"
+								style="margin-left: 20px;"/>
+							</div>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<p:dataTable value="#{listProductsItems.getList()}" var="item"
+						rows="15" paginator="true"
+						paginatorTemplate="{PreviousPageLink} {PageLinks} {NextPageLink}"
+						currentPageReportTemplate="{startRecord}-{endRecord} de un total de {totalRecords}"
+						rowsPerPageTemplate="5,10,15,20">
+			
+			<p:column headerText = "Número de serie">
+				<h:outputText value="#{item.serialNumber}" />							
+			</p:column>
+			
+			<p:column headerText = "Estado">
+				<h:outputText value="#{item.status}" />							
+			</p:column>	
+			
+			<p:column headerText = "ID Producto">
+				<h:outputText value="#{item.product.id}" />							
+			</p:column>	
+
+			<p:column headerText = "Acciones">
+				<h:form>
+					<h:link outcome="updateProductItemView" value="updateItem" includeViewParams="true"
+							type="button" class="btn btn-success">
+						<f:param name="serialNumber" value="#{item.serialNumber}" />
+						<f:param name="product" value="#{item.product}" />
+					</h:link>
+					<h:commandButton onclick="return confirm('Are you sure?')"
+						action="#{deleteItemBean.deleteItem(item.serialNumber)}"
+						value="Delete"
+						styleClass="btn btn-danger mr-2" >
+					</h:commandButton>				
+				</h:form>
+			</p:column>		
+		</p:dataTable>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{updateProductBean.id}" />
+	</f:metadata>
+
+	<ui:composition template="/WEB-INF/include/template.xhtml">
+
+		<ui:define name="content">
+			<br/>
+
+			<h1 class="text-center">Actualización de producto</h1>
+			<h:form>
+			
+				<div class="col-md-12 mb-12 form-group">
+					<h:outputLabel value="Elige la Categoria: "/>
+					<br />
+   					<h:selectOneMenu value="#{updateProductBean.cat}">
+		   				<f:selectItems value="#{updateProductBean.listSelectCategories}" />
+					</h:selectOneMenu>
+				</div>				
+			
+				<div class="col-md-12 mb-12 form-group">
+					<h:outputLabel value="Name" for="name" />
+					<h:inputText id="name" styleClass="form-control" required="true" value="#{updateProductBean.name}" requiredMessage="Please enter the name product." />
+					<h:message for="name" errorStyle="color:red; display:block"/>
+				</div>
+				
+				<div class="col-md-12 mb-12 form-group">
+					<h:outputLabel value="Daily Price" for="dailyPrice" />
+					<h:inputText id="dailyPrice" styleClass="form-control" required="true" value="#{updateProductBean.dailyPrice}" requiredMessage="Please enter the daily price." />
+					<h:message for="dailyPrice" errorStyle="color:red; display:block"/>
+				</div>
+
+				<div class="col-md-12 mb-12 form-group">
+					<h:outputLabel value="Description" for="description" />
+					<h:inputText id="description" styleClass="form-control" required="true" value="#{updateProductBean.description}" requiredMessage="Please enter the description."/>
+					<h:message for="description" errorStyle="color:red; display:block"/>
+				</div>
+				
+				<div class="col-md-12 mb-12 form-group">
+					<h:outputLabel value="Eliga la Marca: "/>
+					<br />
+   					<h:selectOneMenu value="#{updateProductBean.brand}">
+		   				<f:selectItems value="#{updateProductBean.listSelectBrands}" />
+					</h:selectOneMenu>
+				</div>	
+				
+				<div class="col-md-12 mb-12 form-group">
+					<h:outputLabel value="Elige el Modelo: "/>
+					<br />
+   					<h:selectOneMenu value="#{updateProductBean.model}">
+		   				<f:selectItems value="#{updateProductBean.listSelectModels}" />
+					</h:selectOneMenu>
+				</div>									
+																							
+				<div class="col-md-12 mb-1">
+					<h:commandButton value="Modificar" styleClass="btn btn-primary" action="#{updateProductBean.update()}"/>
+				</div>	
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>

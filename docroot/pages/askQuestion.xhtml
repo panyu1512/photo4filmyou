@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+<ui:composition template="/WEB-INF/include/template.xhtml">
+
+	<ui:define name="content">
+
+		<div class="py-5" style="">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<h:form>
+							<div class="form-group">
+								<h:outputLabel value="Título de la pregunta" for="title" />
+								<h:inputText id="title" styleClass="form-control"
+									required="true" value="#{askQuestionBean.title}"
+									requiredMessage="Please enter a valid title."
+									validatorMessage="Invalid title">
+									<f:validateRegex
+										pattern="^(?!\s*$).+" />
+								</h:inputText>
+								<h:message for="title" errorStyle="color:red; display:block" />
+							</div>
+							<div class="form-group">
+								<h:outputLabel value="Pregunta" for="question" />
+									    <h:inputTextarea rows="6" cols="33" id="question" styleClass="form-control" required="true" value="#{askQuestionBean.message}" />
+								<h:message for="question" errorStyle="color:red; display:block" />
+							</div>
+							<div class="col-md-12 mb-12">
+								<h:commandButton value="Enviar pregunta" styleClass="btn btn-primary"
+									action="#{askQuestionBean.askQuestion}" />
+							</div>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

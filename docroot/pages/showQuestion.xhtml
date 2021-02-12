@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+<ui:composition template="/WEB-INF/include/template.xhtml">
+	<ui:define name="content">
+
+		<f:metadata>
+			<f:viewParam name="questionId" value="#{getResponseBean.questionId}" />
+			<f:viewParam name="questionId" value="#{getQuestionBean.questionId}" />
+			<f:event type="preRenderView" listener="#{getResponseBean.onLoad}" />
+			<f:event type="preRenderView" listener="#{getQuestionBean.onLoad}" />
+		</f:metadata>
+
+		<h:panelGroup rendered="#{not empty getQuestionBean.question}"
+			class="card mt-5">
+			<h:panelGroup class="card-body">
+				<h5 class="card-title">
+					<h:outputText value="#{getQuestionBean.question.title}" />
+				</h5>
+				<p>
+					<h:outputText class="card-text"
+						value="#{getQuestionBean.question.message}" />
+				</p>
+				<p>
+					<h:outputText
+						value="Esta pregunta fue realizada por #{getQuestionBean.question.askedBy.name} " />
+				</p>
+			</h:panelGroup>
+		</h:panelGroup>
+
+		<h:form rendered="#{not empty getResponseBean.response}"
+			class="card mt-5" enctype="multipart/form-data" prependId="false">
+			<h:panelGroup class="card-body">
+				<h5 class="card-title">Respuesta</h5>
+				<h6 class="card-subtitle mb-2 text-muted">
+					<h:outputText value="#{getResponseBean.response.status}"
+						id="responseStatus" />
+				</h6>
+				<p class="card-text">
+					<h:outputText value="#{getResponseBean.response.message}" />
+				</p>
+
+				<h:panelGroup rendered="#{loginBean.user.role == 'Administrator' }">
+					<h:commandButton value="Acceptar respuesta"
+						styleClass="btn btn-success m-2" ajax="false"
+						update="responseStatus"
+						action="#{acceptOrRejectResponseBean.acceptResponse(getResponseBean.response.id)}">
+					</h:commandButton>
+
+					<h:commandButton value="Rechazar respuesta"
+						styleClass="btn btn-danger m-2" ajax="false"
+						update="responseStatus"
+						action="#{acceptOrRejectResponseBean.rejectResponse(getResponseBean.response.id)}"
+						immediate="true">
+					</h:commandButton>
+				</h:panelGroup>
+			</h:panelGroup>
+			<c:if test="${not empty user}">
+				<h:panelGroup
+					rendered="#{empty getResponseBean.response.attachedImage}"
+					class="card mt-5">
+					<h:panelGroup>
+						<h6>Añadir imagen a la respuesta</h6>
+						<h:outputText value="Imagen: "></h:outputText>
+						<h:inputFile value="#{addImageToResponseBean.uploadedFile}"
+							required="true" requiredMessage="Por favor, adjunta una imagen." />
+						<br />
+						<h:commandButton value="Guardar imagen" type="submit"
+							action="#{addImageToResponseBean.addImageToResponse(getResponseBean.response.id)}"
+							styleClass="btn btn-primary mt-2"></h:commandButton>
+					</h:panelGroup>
+
+				</h:panelGroup>
+			</c:if>
+
+			<h:panelGroup
+				rendered="#{not empty getResponseBean.response.attachedImage}"
+				class="card mt-5">
+				<div class="card-body">
+					<h6>Imagen adjunta a la respuesta</h6>
+					<h:graphicImage id="attachment"
+						value="data:image/png;base64,${getResponseBean.getAttachedImage()}" />
+				</div>
+			</h:panelGroup>
+
+		</h:form>
+
+		<c:if test="${not empty user}">
+			<h:form rendered="#{empty getResponseBean.response}">
+				<h:outputText
+					value="Aún no hay ninguna respuesta para esta pregunta" />
+				<br />
+				<h:button value="Escribir respuesta"
+					outcome="sendResponse.xhtml?questionId=#{getResponseBean.questionId}"
+					styleClass="btn btn-primary" />
+			</h:form>
+		</c:if>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/include/template.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="productId"
+			value="#{showProductInformationBean.productId}" />
+		<f:viewParam name="productId" value="#{addItemToRentBean.productId}" />
+		<f:event type="preRenderView"
+			listener="#{showProductInformationBean.onLoad}" />
+		<f:event type="preRenderView" listener="#{listAllRentsBean.onLoad}" />
+	</f:metadata>
+
+	<ui:define name="content">
+
+		<h:panelGroup rendered="#{empty showProductInformationBean.product}">
+			<h:outputText class="display-2 md-5" value="Producto no encontrado" />
+		</h:panelGroup>
+
+		<h:panelGroup
+			rendered="#{not empty showProductInformationBean.product}">
+			<h:panelGroup class="card m-5">
+				<h:panelGroup class="card-body">
+					<h4 class="card-title">
+						<h:outputText value="#{showProductInformationBean.product.name}" />
+					</h4>
+					<h5 class="card-title">
+						<h:outputText
+							value="#{showProductInformationBean.product.getName()}" />
+					</h5>
+					<h6 class="card-subtitle mb-2 text-muted">
+						<h:outputText
+							value="Valoración media: #{showProductInformationBean.product.productRating}" />
+					</h6>
+					<h:outputText
+							value="#{showProductInformationBean.product.model.name} - #{showProductInformationBean.product.description}"
+							class="card-text" />
+					<h:form
+						rendered="#{showProductInformationBean.product.availableItems gt 0}">
+						<h:panelGroup class="row m-3">
+							<h:outputText
+								value="Unidades disponibles #{showProductInformationBean.product.availableItems}" />
+						</h:panelGroup>
+					
+							<h:panelGroup class="row m-3" rendered="#{not empty user}">
+								<h:panelGroup rendered="#{empty listAllRentsBean.rentList}">
+									<h:outputText
+										value="No tienes ninguna peticion de alquiler creada aún."
+										class="card-text" />
+								</h:panelGroup>
+								<h:panelGroup class="col m-3"
+									rendered="#{not empty listAllRentsBean.rentList}">
+									<h:panelGroup
+										rendered="#{empty listAllRentsBean.notConfirmedRentList}">
+										<h:outputText value="No hay alquileres activos"
+											class="card-text" />
+									</h:panelGroup>
+									<h:panelGroup class="col m-3"
+										rendered="#{not empty listAllRentsBean.notConfirmedRentList}">
+										<h:outputLabel value="Seleccion el alquiler: " class="row" />
+										<h:selectOneMenu value="#{addItemToRentBean.selectedRent}"
+											class="row">
+											<f:selectItem itemValue="#{null}"
+												itemLabel="Selecciona un alquiler" />
+											<f:selectItems
+												value="#{listAllRentsBean.notConfirmedRentList}" var="rent"
+												itemValue="#{rent.id}"
+												itemLabel="Alquiler #{rent.id} (desde el #{rent.from} hasta #{rent.to})" />
+											<f:ajax event="valueChange" render="@form" execute="@form"
+												listener="#{addItemToRentBean.updateSelectedRent}" />
+										</h:selectOneMenu>
+
+										<p:outputLabel class="row m-3"
+											value="Unidades disponibles para el alquiler seleccionado: #{addItemToRentBean.availableItems.size()}" />
+
+										<h:commandButton value="Añadir al alquiler"
+											action="#{addItemToRentBean.addItemToRent}"
+											class="btn btn-primary"
+											disabled="#{empty addItemToRentBean.availableItems}"
+											render="@all" />
+									</h:panelGroup>
+
+								</h:panelGroup>
+							</h:panelGroup>
+						</h:form>
+					</h:panelGroup>
+					<p:outputLabel class="row alert alert-danger"
+						rendered="#{not empty param['dateError']}"
+						value="#{param['dateError']}" />
+					<p:outputLabel class="row alert alert-success"
+						rendered="#{not empty param['dateSuccess']}"
+						value="#{param['dateSuccess']}" />
+
+					<br />
+					<h:panelGroup
+						rendered="#{showProductInformationBean.product.availableItems eq 0}">
+						<h:outputText value="No hay unidades disponibles de este producto"
+							class="card-text" />
+					</h:panelGroup>
+
+				</h:panelGroup>
+			</h:panelGroup>
+
+			<h:panelGroup class="card m-5">
+				<h:panelGroup class="card-header">
+					<h4 class="card-title">
+						<h:outputText value="Comentarios de los clientes" />
+					</h4>
+				</h:panelGroup>
+				<h:panelGroup class="card-body">
+					<ui:repeat value="#{showProductInformationBean.product.ratings}"
+						var="rating">
+						<h:panelGroup class="row m-3">
+							<h:outputText value="Valoración: #{rating.rating}" />
+						</h:panelGroup>
+						<h:panelGroup class="row m-3">
+							<h:outputText value="#{rating.comment}" />
+						</h:panelGroup>
+						<hr />
+					</ui:repeat>
+				</h:panelGroup>
+			</h:panelGroup>
+			
+			
+			<c:if test="${loginBean.userIsCustomer()}">
+					<h:panelGroup id="pRate" class="card m-5">
+					<h:panelGroup class="card-header">
+						<h4 class="card-title">
+							<h:outputText value="Valorar el producto" />
+						</h4>
+					</h:panelGroup>
+					<h:panelGroup class="card-body">
+						<h:form id="producRate" rendered="#{loginBean.userIsCustomer()}" class="text-center">
+							<div class="form-group">
+								<h:outputLabel value="Comentario" for="comentario" />
+								<p:inputTextarea id="comentario" rows="10" cols="100" styleClass="form-control" required="true" value="#{showProductInformationBean.comment}" requiredMessage="Please enter your comment" />
+								<h:message for="comentario" errorStyle="color:red; display:block"/>
+							</div>
+
+							<div class="form-group">
+								<h:outputLabel value="Rating" for="rating" /><br/>
+								<h:selectOneMenu id="rating" value="#{showProductInformationBean.rate}" required="true" requiredMessage="Debe seleccionar una puntuación">
+									<f:selectItem itemLabel="Seleccione la puntuación" />
+									<f:selectItem itemLabel="0" itemValue="0" />
+									<f:selectItem itemLabel="1" itemValue="1" />
+									<f:selectItem itemLabel="2" itemValue="2" />
+									<f:selectItem itemLabel="3" itemValue="3" />
+									<f:selectItem itemLabel="4" itemValue="4" />
+									<f:selectItem itemLabel="5" itemValue="5" />
+									<f:selectItem itemLabel="6" itemValue="6" />
+									<f:selectItem itemLabel="7" itemValue="7" />
+									<f:selectItem itemLabel="8" itemValue="8" />
+									<f:selectItem itemLabel="9" itemValue="9" />
+									<f:selectItem itemLabel="10" itemValue="10" />
+								</h:selectOneMenu>
+								<h:message for="rating" errorStyle="color:red; display:block"/>
+							</div>
+
+							<div class="form-row">
+								<h:commandButton value="Realizar valoración" styleClass="btn btn-primary" action="#{showProductInformationBean.registerRate}"/>
+							</div>
+
+
+
+						</h:form>
+					</h:panelGroup>
+				</h:panelGroup>
+			</c:if>
+	</ui:define>
+</ui:composition>
+</html>

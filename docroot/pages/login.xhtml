@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<ui:composition template="/WEB-INF/include/template.xhtml">
+	
+	
+	
+	<ui:define name="content">
+
+		<div class="py-5" style="">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<h:form>
+							<div class="form-group">
+								<h:outputLabel value="Email" for="email" />
+								<h:inputText id="email" styleClass="form-control" required="true" value="#{loginBean.email}" requiredMessage="Please enter your email address." validatorMessage="Invalid email format">
+									<f:validateRegex
+										pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+								</h:inputText>
+								<h:message for="email" errorStyle="color:red; display:block"/> 
+								<small
+									class="form-text text-muted">We'll never share your
+									email with anyone else.</small>
+							</div>
+							<div class="form-group">
+								<h:outputLabel value="Password" for="password" />
+								<h:inputSecret id="password" styleClass="form-control" required="true" value="#{loginBean.password}" />
+								<h:message for="password" errorStyle="color:red; display:block"/>
+							</div>
+							<div class="col-md-12 mb-12">
+								<h:commandButton value="Login" styleClass="btn btn-primary" action="#{loginBean.login}"/>
+							</div>					
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

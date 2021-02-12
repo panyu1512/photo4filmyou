@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:h="http://java.sun.com/jsf/html">
+<ui:composition template="/WEB-INF/include/template.xhtml">
+
+	<ui:define name="content">
+		<div class="py-5">
+			<div class="container">
+				<h:form>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<label>Buscar por descripción</label>
+								<h:inputText value="#{listProductAvailableItems.description}" label="Descripción" styleClass="form-control form-control-lg large w-100" ></h:inputText>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-12">
+							<label>Marca</label>
+							<h:selectOneMenu value="#{listProductAvailableItems.idBrand}" label="Marca">
+								<f:selectItems value="#{listCatalogElements.brands}" var="brand" itemValue="#{brand.id}" itemLabel="#{brand.name}"></f:selectItems>
+							</h:selectOneMenu>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<label>Modelo</label>
+							<h:selectOneMenu value="#{listProductAvailableItems.idModel}" label="Modelo">
+								<f:selectItems value="#{listCatalogElements.models}" var="model" itemValue="#{model.id}" itemLabel="#{model.name}"></f:selectItems>
+							</h:selectOneMenu>
+						</div>
+					</div>
+					<div class="row calendar-search">
+						<div class="col-md-12" id="datepicker-start">
+							<label>
+								Fecha inicio
+							</label>
+							<h:inputText value="#{listProductAvailableItems.dateStart}" >
+								<f:passThroughAttribute name="type" value="date"/>
+							</h:inputText>
+						</div>
+					</div>
+					<div class="row calendar-search">
+						<div class="col-md-12" id="datepicker-end">
+							<label>
+								Fecha fin
+							</label>
+							<h:inputText value="#{listProductAvailableItems.dateEnd}" >
+								<f:passThroughAttribute name="type" value="date"/>
+							</h:inputText>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<h:commandLink value="Buscar" styleClass="btn btn-secondary" action="#{listProductAvailableItems.searchProductWithAvailableItems}"/>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<h:selectBooleanCheckbox class="enable-datepickers" value="#{listProductAvailableItems.useDateFiler}"/> Habilitar búsqueda por fechas
+						</div>
+						<script>
+							document.addEventListener('DOMContentLoaded', function() {
+								document.querySelector('.enable-datepickers').addEventListener('click', function(){
+									jQuery('.calendar-search').toggle();
+								})
+							});
+						</script>
+					</div>
+				</h:form>
+			</div>
+		</div>
+		<div class="py-5">
+			<div class="container">
+				<div class="row">
+					<ui:repeat value="#{listProductAvailableItems.listProducts}" var="product">
+						<div class="col-lg-3 col-md-6 p-3 box-product">
+							<div class="card-body p-4">
+								<h3>#{product.name}</h3>
+								<span>#{product.model.name}</span>
+								<ul class="list-unstyled my-3">
+									<li class="mb-1">#{product.category.name}</li>
+								</ul>
+								<h:link outcome="showProductInformationView" value="Alquilar"
+										class="btn btn-outline-primary mt-3">
+									<f:param name="productId" value="#{product.id}" />
+								</h:link>
+								<div><span>Unidades totales: #{product.availableItems}</span></div>
+							</div>
+						</div>
+					</ui:repeat>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/include/template.xhtml">
+
+	<f:metadata>
+		<f:event type="preRenderView" listener="#{listAllRentsBean.onLoad}" />
+	</f:metadata>
+
+	<ui:define name="content">
+		<h2 class="display-3 m-5">Alquileres</h2>
+
+		<h:panelGroup class="row m-3">
+			<h:button value="Crear un nuevo alquiler" outcome="createRentView"
+				styleClass="btn btn-primary" rendered="#{loginBean.user.role == 'Customer'}"/>
+		</h:panelGroup>
+
+		<p:outputLabel class="row alert alert-danger"
+			rendered="#{not empty param['dateError']}"
+			value="#{param['dateError']}" />
+		<p:outputLabel class="row alert alert-success"
+			rendered="#{not empty param['dateSuccess']}"
+			value="#{param['dateSuccess']}" />
+
+		<p:dataTable value="#{listAllRentsBean.rentList}" var="item"
+			paginator="false" tableStyle="width:auto">
+
+			<p:column headerText="ID">
+				<h:outputText value="#{item.id}" />
+			</p:column>
+
+			<p:column headerText="from">
+				<h:outputText value="#{item.from}" />
+			</p:column>
+
+			<p:column headerText="to">
+				<h:outputText value="#{item.to}" />
+			</p:column>
+
+			<p:column headerText="Status">
+				<h:outputText value="#{item.status}" />
+			</p:column>
+
+			<p:column headerText="Customer">
+				<h:outputText value="#{item.customerJPA.nif}" />
+			</p:column>
+
+			<p:column headerText="Price">
+				<h:outputText value="#{item.totalPrice.getAmount()}" />
+			</p:column>
+
+			<p:column headerText="Rent Days">
+				<h:outputText value="#{item.rentDays}" />
+			</p:column>
+
+			<p:column headerText="Items">
+				<ul class="list-group">
+					<ui:repeat value="#{listAllRentsBean.listAllRentItems(item.id)}"
+						var="includedItem">
+						<li class="list-group-item">#{includedItem.serialNumber}</li>
+					</ui:repeat>
+				</ul>
+			</p:column>
+
+			<p:column headerText="Acciones">
+				<h:form rendered="#{item.status == 'NotConfirmed' }">
+					<h:link outcome="CancelRentView" value="Cancelar"
+						includeViewParams="true" type="button" class="btn btn-warning">
+						<f:param name="id" value="#{item.id}" />
+					</h:link>
+					<h:commandButton value="Confirmar" class="btn btn-success"
+						action="#{confirmRentBean.confirmRent(item.id)}" />
+				</h:form>
+				<h:outputText rendered="#{item.status == 'Cancelled' }"
+					value="El alquiler está cancelado" />
+				<h:outputText rendered="#{item.status == 'Confirmed' }"
+					value="El alquiler ya está confirmado" />
+			</p:column>
+
+		</p:dataTable>
+
+	</ui:define>
+</ui:composition>
+</html>

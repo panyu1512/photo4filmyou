@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/include/template.xhtml">
+	
+	<ui:define name="content">
+	
+		<div class="py-5">
+		    <div class="container">
+		      	<div class="row">
+		        	<div class="col-md-12">
+		          		<h1 class="">Tabla de marcas</h1>
+		        	</div>
+		      	</div>
+		    </div>
+		</div>
+		
+		<div class="py-5">
+			<div class="container">
+				<div class="row" >
+				    <div class= "col-12 col-md-12">
+					    <h:form>
+					    	<div class= "col-12 col-md-12">
+								<h:link outcome="AddBrandView" value="Añadir una marca" class="btn btn-info col-2 col-md-2"
+								style="margin-left: 20px;"/>
+							</div>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<p:dataTable value="#{listAllBrands.ListBrands()}" var="item"
+						rows="5" paginator="true"
+						paginatorTemplate="{PreviousPageLink} {PageLinks} {NextPageLink}"
+						currentPageReportTemplate="{startRecord}-{endRecord} de un total de {totalRecords}"
+						rowsPerPageTemplate="5,10,15,20">
+			
+			<p:column headerText = "Nombre marca">
+				<h:outputText value="#{item.name}" />							
+			</p:column>
+			
+			<p:column headerText = "Acciones">
+				<h:form>
+					<h:link outcome="UpdateBrandView" value="Modificar" includeViewParams="true"
+							type="button" class="btn btn-success">
+						<f:param name="name" value="#{item.name}" />
+						<f:param name="id" value="#{item.id}" />
+					</h:link>
+				</h:form>
+			</p:column>			
+	
+		</p:dataTable>
+	</ui:define>
+</ui:composition>
+</html>
